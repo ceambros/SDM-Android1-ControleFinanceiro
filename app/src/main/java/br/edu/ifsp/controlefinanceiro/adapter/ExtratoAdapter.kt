@@ -23,7 +23,7 @@ class ExtratoAdapter(contexto: Context, listaDeTransacoes: List<Transacao>) : Ba
 
         //Utilizando synthetic para manipular
         viewExtrato.valor_transacao.text = transacao.valor.toString()
-        viewExtrato.tipo_transacao.text = transacao.tipo
+        viewExtrato.tipo_transacao.text = transacao.descricao
         //Utilizando extension para o metodo formataData
         viewExtrato.data_transacao.text = transacao.data.formataData("dd/MM/yyyy")
         return viewExtrato
