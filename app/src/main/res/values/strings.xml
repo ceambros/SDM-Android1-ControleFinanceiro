@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Finanças</string>
+    <string name="app_name">Controle Financeiro - SDM</string>
     <string name="lista_transacoes_adiciona" />
     <string name="adiciona_receita">Adiciona receita</string>
     <string name="adiciona_despesa">Adiciona despesa</string>
