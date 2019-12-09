@@ -1,5 +1,5 @@
 package br.edu.ifsp.controlefinanceiro.enums
 
-enum class TipoTransacao {
+enum class TipoTransacaoEnum {
     RECEITA, DESPESA
 }
