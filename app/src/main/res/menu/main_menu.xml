@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/adicionarTransacao"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="100"
+        android:title="Adicionar"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/adicionarContaMenuItem"
         android:orderInCategory="1"
         android:title="Adicionar Conta"

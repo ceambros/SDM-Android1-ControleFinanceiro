@@ -5,6 +5,7 @@ import br.edu.ifsp.controlefinanceiro.extension.formatoBrasileiro
 import java.math.BigDecimal
 
 class Conta(
+    val codigo: Int,
     val descricao: String,
     val saldoInicial: BigDecimal,
     val listaTransacoes: List<Transacao>
