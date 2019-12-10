@@ -1,9 +1,13 @@
 package br.edu.ifsp.controlefinanceiro.view
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import br.edu.ifsp.controlefinanceiro.R
@@ -22,6 +26,8 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
 
     object Constantes {
         val ADICIONAR_CONTA_REQUEST_CODE = 0
+        val ADICIONAR_TRANSACAO_REQUEST_CODE = 1
+        val ALTERAR_CONTA_REQUEST_CODE = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +36,16 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
 
         ControladorDeContas.criarContaFicticia()
 
+        //Utilizando a extensao kotlin-android-extensions podemos utilizar os componentes do layout sem utilizer findViewByID
+        atualizaExtrato()
+        atualizarResumo()
+    }
+
+    private fun atualizaExtrato() {
+        extrato_financeiro_listview.setAdapter(ExtratoAdapter(this, ControladorDeContas.contaAtual))
+    }
+
+    private fun atualizarResumo() {
         var viewPrincipal = window.decorView
 
         with(viewPrincipal.resumo_card_receita) {
@@ -37,20 +53,17 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
             setTextColor(ContextCompat.getColor(context, R.color.receita))
         }
         with(viewPrincipal.resumo_card_despesa) {
-            text =  ControladorDeContas.contaAtual.getTotalDespesa().toString();
+            text = ControladorDeContas.contaAtual.getTotalDespesa().toString();
             setTextColor(ContextCompat.getColor(context, R.color.despesa))
         }
         with(viewPrincipal.resumo_card_total) {
-            text =  ControladorDeContas.contaAtual.getSaldoFinal().formatoBrasileiro();
-            if ( ControladorDeContas.contaAtual.getSaldoFinal() <= BigDecimal.ZERO) {
+            text = ControladorDeContas.contaAtual.getSaldoFinal().formatoBrasileiro();
+            if (ControladorDeContas.contaAtual.getSaldoFinal() <= BigDecimal.ZERO) {
                 setTextColor(ContextCompat.getColor(context, R.color.despesa))
             }
             setTextColor(ContextCompat.getColor(context, R.color.receita))
         }
-        viewPrincipal.nome_conta.text =  ControladorDeContas.contaAtual.descricao;
-
-        //Utilizando a extensao kotlin-android-extensions podemos utilizar os componentes do layout sem utilizer findViewByID
-        extrato_financeiro_listview.setAdapter(ExtratoAdapter(this,  ControladorDeContas.contaAtual))
+        viewPrincipal.nome_conta.text = ControladorDeContas.contaAtual.descricao
     }
 
     //Cria o menu
@@ -65,7 +78,11 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.alterarContaMenuItem -> {
                 retorno = true;
-                finish();
+                val alterarContaIntent = Intent(this, AlterarContaActivity::class.java)
+                startActivityForResult(
+                    alterarContaIntent,
+                    Constantes.ALTERAR_CONTA_REQUEST_CODE
+                )
             }
             R.id.adicionarContaMenuItem -> {
                 retorno = true;
@@ -75,29 +92,39 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
                     Constantes.ADICIONAR_CONTA_REQUEST_CODE
                 )
             }
+            R.id.adicionarTransacao -> {
+                retorno = true;
+                val adicionarContaIntent = Intent(this, AdicionarTransacaoActivity::class.java)
+
+                //Passagem de parametros para a proxima activity
+                adicionarContaIntent.putExtra(
+                    "nomeContaBancaria",
+                    ControladorDeContas.contaAtual.descricao
+                )
+
+                startActivityForResult(
+                    adicionarContaIntent,
+                    Constantes.ADICIONAR_TRANSACAO_REQUEST_CODE
+                )
+            }
         }
         return retorno
     }
 
-    /*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constantes.ADICIONAR_CONTA_REQUEST_CODE &&
-            resultCode == AppCompatActivity.RESULT_OK
-        ) {
-            val configuracao = data?.getParcelableExtra<Configuracao>(
-                ConfiguracaoActivity.Constantes.CONFIGURACAO
-            )
-            if (configuracao!!.leiauteAvancado) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.calculadoraFl, CalculadoraAvancadaFragment()).commit()
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.calculadoraFl, CalculadoraBasicaFragment()).commit()
-            }
+
+        if (!(requestCode != Constantes.ADICIONAR_TRANSACAO_REQUEST_CODE && resultCode != Activity.RESULT_OK)) {
+            atualizarResumo()
+            Toast.makeText(this, data?.getStringExtra("retornoTransacao"), Toast.LENGTH_SHORT)
+                .show()
+        }
+        if (!(requestCode != Constantes.ALTERAR_CONTA_REQUEST_CODE && resultCode != Activity.RESULT_OK)) {
+            atualizarResumo()
+            atualizaExtrato()
+            Toast.makeText(this, data?.getStringExtra("retornoTrocarConta"), Toast.LENGTH_SHORT)
+                .show()
         }
     }
-    */
-
-
 }
