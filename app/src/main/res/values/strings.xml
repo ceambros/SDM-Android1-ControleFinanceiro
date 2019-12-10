@@ -8,6 +8,7 @@
     <string name="valor">Valor</string>
     <string name="data">Data</string>
     <string name="categoria">Categoria</string>
+    <string name="tipo">Tipo</string>
     <string name="receita">Receita</string>
     <string name="despesa">Despesa</string>
     <string name="total">Total</string>

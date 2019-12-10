@@ -15,5 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.AdicionarContaActivity"/>
+        <activity android:name=".view.AdicionarTransacaoActivity"/>
+        <activity android:name=".view.AlterarContaActivity"/>
     </application>
 </manifest>

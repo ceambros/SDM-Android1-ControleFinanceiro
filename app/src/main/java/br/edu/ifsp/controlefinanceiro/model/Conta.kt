@@ -8,7 +8,7 @@ class Conta(
     val codigo: Int,
     val descricao: String,
     val saldoInicial: BigDecimal,
-    val listaTransacoes: List<Transacao>
+    var listaTransacoes: ArrayList<Transacao>
 ) {
 
     fun receita(): BigDecimal {
@@ -42,4 +42,10 @@ class Conta(
     fun getSaldoFinal(): BigDecimal {
         return receita().subtract(despesa())
     }
+
+    override fun toString(): String {
+        return descricao
+    }
+
+
 }

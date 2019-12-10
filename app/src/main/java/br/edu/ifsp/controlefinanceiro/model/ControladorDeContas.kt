@@ -11,17 +11,25 @@ class ControladorDeContas {
 
         var listaDeContas: ArrayList<Conta> = ArrayList()
         var ultimoCodigo = 0
-        var contaAtual = Conta(0,"", BigDecimal(0), ArrayList())
+        var contaAtual = Conta(0, "", BigDecimal(0), ArrayList())
 
         fun criarContaFicticia() {
 
-            val listaDeTransacoes: List<Transacao> = listOf(
+            if (contaAtual.listaTransacoes.size != 0) {
+                return
+            }
+
+            val listaDeTransacoes: ArrayList<Transacao> = ArrayList();
+
+            listaDeTransacoes.add(
                 Transacao(
                     BigDecimal(1000.25),
                     "Conta de Agua",
                     CategoriaEnum.AGUA.name,
                     TipoTransacaoEnum.DESPESA
-                ),
+                )
+            )
+            listaDeTransacoes.add(
                 Transacao(
                     BigDecimal(1000.85),
                     "Salário Mensal",
@@ -29,7 +37,9 @@ class ControladorDeContas {
                     TipoTransacaoEnum.RECEITA
                 )
             )
-            val contaDefault = Conta(getProximoCodigo(), "Bradesco", BigDecimal(1000), listaDeTransacoes)
+
+            val contaDefault =
+                Conta(getProximoCodigo(), "Bradesco", BigDecimal(1000), listaDeTransacoes)
             listaDeContas.add(contaDefault)
             contaAtual = contaDefault
         }
