@@ -17,5 +17,6 @@
         <activity android:name=".view.AdicionarContaActivity"/>
         <activity android:name=".view.AdicionarTransacaoActivity"/>
         <activity android:name=".view.AlterarContaActivity"/>
+        <activity android:name=".view.RelatorioActivity"/>
     </application>
 </manifest>

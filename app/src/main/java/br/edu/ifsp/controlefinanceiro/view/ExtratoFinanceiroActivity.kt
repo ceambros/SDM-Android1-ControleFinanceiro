@@ -28,6 +28,7 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
         val ADICIONAR_CONTA_REQUEST_CODE = 0
         val ADICIONAR_TRANSACAO_REQUEST_CODE = 1
         val ALTERAR_CONTA_REQUEST_CODE = 2
+        val VISUALIZAR_EXTRATO_REQUEST_CODE = 3
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,6 +115,15 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
                 startActivityForResult(
                     adicionarContaIntent,
                     Constantes.ADICIONAR_TRANSACAO_REQUEST_CODE
+                )
+            }
+            R.id.visualizarExtratos -> {
+                retorno = true;
+                val visualizarExtrato = Intent(this, RelatorioActivity::class.java)
+
+                startActivityForResult(
+                    visualizarExtrato,
+                    Constantes.VISUALIZAR_EXTRATO_REQUEST_CODE
                 )
             }
         }

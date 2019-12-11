@@ -17,4 +17,9 @@
         android:orderInCategory="1"
         android:title="Trocar de Conta"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/visualizarExtratos"
+        android:orderInCategory="1"
+        android:title="Extratos"
+        app:showAsAction="never" />
 </menu>

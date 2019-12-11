@@ -14,4 +14,5 @@
     <string name="total">Total</string>
     <string name="mes">Mês</string>
     <string name="ano">Ano</string>
+    <string name="banco">banco</string>
 </resources>
