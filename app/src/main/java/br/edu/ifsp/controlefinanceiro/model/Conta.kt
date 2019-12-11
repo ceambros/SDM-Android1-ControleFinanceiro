@@ -46,6 +46,4 @@ class Conta(
     override fun toString(): String {
         return descricao
     }
-
-
 }

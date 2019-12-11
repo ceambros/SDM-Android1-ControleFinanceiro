@@ -1,6 +1,7 @@
 package br.edu.ifsp.controlefinanceiro.model
 
 import br.edu.ifsp.controlefinanceiro.enums.CategoriaEnum
+import br.edu.ifsp.controlefinanceiro.enums.PeriodicidadeEnum
 import br.edu.ifsp.controlefinanceiro.enums.TipoTransacaoEnum
 import java.math.BigDecimal
 
@@ -23,18 +24,11 @@ class ControladorDeContas {
 
             listaDeTransacoes.add(
                 Transacao(
-                    BigDecimal(1000.25),
-                    "Conta de Agua",
-                    CategoriaEnum.AGUA.name,
-                    TipoTransacaoEnum.DESPESA
-                )
-            )
-            listaDeTransacoes.add(
-                Transacao(
-                    BigDecimal(1000.85),
-                    "Salário Mensal",
-                    CategoriaEnum.SALARIO.name,
-                    TipoTransacaoEnum.RECEITA
+                    valor = BigDecimal.ZERO,
+                    descricao = "SALDO INICIAL",
+                    categoria = CategoriaEnum.SALDO_INICIAL.name,
+                    tipoTransacao = TipoTransacaoEnum.RECEITA,
+                    periodicidade = PeriodicidadeEnum.UNICO.name
                 )
             )
 
@@ -48,10 +42,15 @@ class ControladorDeContas {
             listaDeContas.add(conta)
         }
 
-        fun mostrarContas() {
+        fun getSaldoContas(): BigDecimal {
+            var saldo = BigDecimal.ZERO;
             for (conta in listaDeContas) {
-                println("*****************" + conta.codigo + " - " + conta.descricao)
+                println("********* " + conta.getSaldoFinal())
+                println("********* " + contaAtual.getSaldoFinal())
+                saldo = saldo.plus(conta.getSaldoFinal())
+                println("Saldo " + saldo)
             }
+            return saldo
         }
 
         fun getProximoCodigo(): Int {

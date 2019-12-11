@@ -10,4 +10,5 @@ class Transacao(
     , val categoria: String
     , val tipoTransacao: TipoTransacaoEnum
     , val data: Calendar = Calendar.getInstance()
+    , val periodicidade: String
 )

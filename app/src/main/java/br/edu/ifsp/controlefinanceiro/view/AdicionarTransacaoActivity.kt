@@ -14,7 +14,9 @@ import java.math.BigDecimal
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import br.edu.ifsp.controlefinanceiro.enums.CategoriaEnum
+import br.edu.ifsp.controlefinanceiro.enums.PeriodicidadeEnum
 import br.edu.ifsp.controlefinanceiro.model.Transacao
+import java.lang.NumberFormatException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -36,6 +38,9 @@ class AdicionarTransacaoActivity : AppCompatActivity() {
         val listaCategoria =
             findViewById(br.edu.ifsp.controlefinanceiro.R.id.form_transacao_categoria) as Spinner
 
+        val listaPeriodicidade =
+            findViewById(br.edu.ifsp.controlefinanceiro.R.id.form_transacao_periodicidade) as Spinner
+
         listaTipo.adapter =
             ArrayAdapter<TipoTransacaoEnum>(
                 this,
@@ -49,14 +54,28 @@ class AdicionarTransacaoActivity : AppCompatActivity() {
                 CategoriaEnum.values()
             )
 
+        listaPeriodicidade.adapter =
+            ArrayAdapter<PeriodicidadeEnum>(
+                this,
+                android.R.layout.simple_spinner_item,
+                PeriodicidadeEnum.values()
+            )
     }
 
     fun onClickSalvarTransacao(v: View) {
 
         val tipo = form_transacao_tipo.selectedItem as TipoTransacaoEnum
         val categoria = form_transacao_categoria.selectedItem.toString()
-        val valor = form_transacao_valor.text.toString()
         val dataEmTexto = form_transacao_data.text.toString()
+        val periodicidade = form_transacao_periodicidade.selectedItem.toString()
+
+        val valor = try {
+            BigDecimal(form_transacao_valor.text.toString())
+        } catch (exception: NumberFormatException) {
+            BigDecimal.ZERO
+            Toast.makeText(this, "Valor inválido!", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val calendario = Calendar.getInstance()
         try {
@@ -70,11 +89,12 @@ class AdicionarTransacaoActivity : AppCompatActivity() {
         }
 
         val novaTransacao = Transacao(
-            valor = BigDecimal(valor),
+            valor = valor,
             descricao = "",
             categoria = categoria,
             tipoTransacao = tipo,
-            data = calendario
+            data = calendario,
+            periodicidade = periodicidade
         )
 
         ControladorDeContas.contaAtual.listaTransacoes.add(novaTransacao)
@@ -82,7 +102,10 @@ class AdicionarTransacaoActivity : AppCompatActivity() {
         // Setar resultado para main activithy
         setResult(
             AppCompatActivity.RESULT_OK,
-            Intent().putExtra("retornoTransacao", "Transacao " + ControladorDeContas.contaAtual.listaTransacoes.size + " criada com sucesso")
+            Intent().putExtra(
+                "retornoTransacao",
+                "Transacao " + ControladorDeContas.contaAtual.listaTransacoes.size + " criada com sucesso"
+            )
         )
 
         //Toast.makeText(this, "Transação Salva Com Sucesso!", Toast.LENGTH_SHORT).show()

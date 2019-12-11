@@ -54,6 +54,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Periodicidade"
+        android:textColor="#070707"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/form_transacao_data" />
+
+    <Spinner
+        android:id="@+id/form_transacao_periodicidade"
+        android:layout_width="260dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/form_transacao_data" />
+
     <Spinner
         android:id="@+id/form_transacao_categoria"
         android:layout_width="305dp"
@@ -68,6 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="0,00"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/form_transacao_categoria" />
@@ -94,6 +115,6 @@
         android:textColor="@color/design_default_color_primary_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_transacao_data"/>
+        app:layout_constraintTop_toBottomOf="@+id/form_transacao_periodicidade" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

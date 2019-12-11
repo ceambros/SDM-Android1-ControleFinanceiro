@@ -60,8 +60,17 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
             text = ControladorDeContas.contaAtual.getSaldoFinal().formatoBrasileiro();
             if (ControladorDeContas.contaAtual.getSaldoFinal() <= BigDecimal.ZERO) {
                 setTextColor(ContextCompat.getColor(context, R.color.despesa))
+            } else {
+                setTextColor(ContextCompat.getColor(context, R.color.receita))
             }
-            setTextColor(ContextCompat.getColor(context, R.color.receita))
+        }
+        with(viewPrincipal.resumo_saldo_total) {
+            text = ControladorDeContas.getSaldoContas().formatoBrasileiro();
+            if (ControladorDeContas.getSaldoContas() < BigDecimal.ZERO) {
+                setTextColor(ContextCompat.getColor(context, R.color.despesa))
+            } else {
+                setTextColor(ContextCompat.getColor(context, R.color.receita))
+            }
         }
         viewPrincipal.nome_conta.text = ControladorDeContas.contaAtual.descricao
     }
@@ -115,15 +124,21 @@ class ExtratoFinanceiroActivity : AppCompatActivity() {
 
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (!(requestCode != Constantes.ADICIONAR_TRANSACAO_REQUEST_CODE && resultCode != Activity.RESULT_OK)) {
+        if (requestCode == Constantes.ADICIONAR_TRANSACAO_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             atualizarResumo()
             Toast.makeText(this, data?.getStringExtra("retornoTransacao"), Toast.LENGTH_SHORT)
                 .show()
         }
-        if (!(requestCode != Constantes.ALTERAR_CONTA_REQUEST_CODE && resultCode != Activity.RESULT_OK)) {
+        if (requestCode == Constantes.ALTERAR_CONTA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             atualizarResumo()
             atualizaExtrato()
             Toast.makeText(this, data?.getStringExtra("retornoTrocarConta"), Toast.LENGTH_SHORT)
+                .show()
+        }
+        if (requestCode == Constantes.ADICIONAR_CONTA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            atualizarResumo()
+            atualizaExtrato()
+            Toast.makeText(this, data?.getStringExtra("retornoAdicionarConta"), Toast.LENGTH_SHORT)
                 .show()
         }
     }

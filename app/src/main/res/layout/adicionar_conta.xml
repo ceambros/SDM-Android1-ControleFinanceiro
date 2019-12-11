@@ -60,11 +60,11 @@
         android:layout_width="325dp"
         android:layout_height="51dp"
         android:layout_marginTop="16dp"
+        android:onClick="onClickSalvar"
         android:text="SALVAR"
         android:textColor="@color/design_default_color_primary_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adicionarContaSaldoInicial"
-        android:onClick="onClickSalvar"/>
+        app:layout_constraintTop_toBottomOf="@+id/adicionarContaSaldoInicial" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
