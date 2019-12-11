@@ -24,7 +24,7 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
-import br.edu.ifsp.controlefinanceiro.adapter.ExtratoAdapter
+import br.edu.ifsp.controlefinanceiro.adapter.RelatorioAdapter
 import kotlinx.android.synthetic.main.activity_extrato_financeiro.*
 import kotlinx.android.synthetic.main.form_relatorio.*
 import kotlinx.android.synthetic.main.form_relatorio.extrato_financeiro_listview
@@ -39,8 +39,6 @@ class RelatorioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(br.edu.ifsp.controlefinanceiro.R.layout.form_relatorio)
-
-        ControladorDeContas.criarContaFicticia();
 
         if (getIntent().hasExtra("nomeContaBancaria")) {
             val nomeConta = getIntent().getStringExtra("nomeContaBancaria")
@@ -88,7 +86,7 @@ class RelatorioActivity : AppCompatActivity() {
         val dataInicioFormatada = null
         val dataFimFormatada = null;
 
-        if(!dataInicio.isEmpty() && !dataFim.isEmpty()) {
+        if (!dataInicio.isEmpty() && !dataFim.isEmpty()) {
             val calendario = Calendar.getInstance()
             try {
                 val sdf = SimpleDateFormat("dd/MM/yyyy");
@@ -106,42 +104,41 @@ class RelatorioActivity : AppCompatActivity() {
         var listaConta: ArrayList<Conta> = ArrayList()
         var listaTransacao: ArrayList<Transacao> = ArrayList()
 
-        for (i in 0 until ControladorDeContas.listaDeContas.size) {
+        for (conta in ControladorDeContas.listaDeContas) {
 
-            val conta = ControladorDeContas.listaDeContas.get(i);
             // Do something with the value
             println(conta.descricao);
             listaTransacao.clear();
 
-            for (j in 0 until conta.listaTransacoes.size) {
-                val transacao = conta.listaTransacoes.get(j);
-
+            for (transacao in conta.listaTransacoes) {
                 println(transacao.valor);
 
-                if(transacao.categoria.equals(categoria)){
+                if (transacao.categoria.equals(categoria)) {
                     listaTransacao.add(transacao);
+                    continue
                 }
 
-                if(transacao.tipoTransacao.equals(tipo)){
+                if (transacao.tipoTransacao.equals(tipo)) {
                     listaTransacao.add(transacao);
+                    continue
                 }
 
-                if(transacao.data.before(dataFimFormatada) && transacao.data.after(dataInicioFormatada)){
+                if (transacao.data.before(dataFimFormatada) && transacao.data.after(
+                        dataInicioFormatada
+                    )
+                ) {
                     listaTransacao.add(transacao);
+                    continue
                 }
             }
 
-            if(!listaTransacao.isEmpty()){
-                conta.listaTransacoes.clear();
-                conta.listaTransacoes.addAll(listaTransacao);
-                listaConta.add(conta);
-            }
+            //if(!listaTransacao.isEmpty()){
+            conta.listaTransacoes.clear();
+            conta.listaTransacoes.addAll(listaTransacao);
+            listaConta.add(conta);
+            //}
 
-            for (j in 0 until listaTransacao.size) {
-                print(listaTransacao.get(j).toString());
-            }
-
-            extrato_financeiro_listview.adapter = ExtratoAdapter(this, conta)
+            extrato_financeiro_listview.adapter = RelatorioAdapter(this, conta)
         }
 
     }
